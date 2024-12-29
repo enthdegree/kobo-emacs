@@ -3,7 +3,7 @@
   <img alt="Cathedrals everywhere for those with eyes to see" src="./images/kobo_emacs_splash.jpeg" width="95%">
 </p>
 
-The Kobo Clara HD is a great platform to run emacs on via [efbpad](https://github.com/enthdegree/efbpad).
+The Kobo Clara BW is a great platform to run emacs on via [efbpad](https://github.com/enthdegree/efbpad).
 This project describes the stuff needed to get emacs running on it natively. 
 Though not challenging the process is fairly long.
 This guide is not complete and can probably be improved.
