@@ -262,7 +262,7 @@ touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
 On the kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.
 
   - ncurses-6.3
-    - For this we need a `/usr/bin/install` that works... see the NiLuJe usbnet config comment above.
+    - For this we need a `/usr/bin/install` that works... see the usbnet config comment above.
     -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
