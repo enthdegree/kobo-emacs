@@ -43,7 +43,7 @@ We have to be careful during compilation to link to the toolchain ones.
 There's several ways of doing this.
 I chose to always include the following parameters in CFLAGS:
 ```
--Wl,-rpath -Wl,$SYSROOT/lib: \$SYSROOT/usr/lib \
+-Wl,-rpath -Wl,$SYSROOT/lib:$SYSROOT/usr/lib \
 -Wl,--dynamic-linker=$SYSROOT/lib/ld-linux-armhf.so.3
 ```
 
