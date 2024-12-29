@@ -1,6 +1,6 @@
 # kobo-emacs
 <p align="center">
-  <img alt="Cathedrals everywhere for those with eyes to see" src="./images/kobo_emacs_splash.jpeg" width="75%">
+  <img alt="Cathedrals everywhere for those with eyes to see" src="./images/kobo_emacs_splash.jpeg" width="95%">
 </p>
 
 The Kobo Clara HD is a great platform to run emacs on via [efbpad](https://github.com/enthdegree/efbpad).
