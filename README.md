@@ -52,18 +52,18 @@ Clone NiLuJe's `koxtoolchain` repo and use `gen-tc.sh` to produce a kobo toolcha
 This will produce a toolchain in `~/x-tools/arm-kobo-linux-gnueabihf`
 
 ### Create a canadian toolchain
-Clone and build `crosstool-ng`. Then make a toolchain to be run on the Kobo:
+Clone and build `crosstool-ng`. Then make a native kobo toolchain at `~/x-tools/HOST_arm-kobo-linux-gnueabihf`:
 ```
   export $PATH="$HOME/x-tools/arm-kobo-linux-gnueabihf/bin:$PATH"
   cp [this repo]/kobo_cross_native.conf [ct-ng path]/.conf
   ./ct-ng build
 ```
-This should put a Kobo-native toolchain inside `$HOME/x-tools/HOST_arm-kobo-linux-gnueabihf`
-`kobo_cross_native.conf` is thinly dervied from NiLuJe's kobo config in the previous step.
+
+`kobo_cross_native.conf` is thinly dervied from koxtoolchain's ct-ng kobo config from the previous step.
 
 ## Prepare an initial sysroot
 ### Create an empty `localfs.img`
-Pick some mount point for the project, `export BUILD_SYSROOT=[...]`.
+Set some mount point for the project, `export BUILD_SYSROOT=[...]`.
 Create and mount an FS there:
 ```
 fallocate -l 3G localfs.img
