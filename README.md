@@ -63,6 +63,8 @@ This should put a Kobo-native toolchain inside `$HOME/x-tools/HOST_arm-kobo-linu
 
 ## Prepare an initial sysroot
 ### Create an empty `localfs.img`
+Pick some mount point for the project, `export BUILD_SYSROOT=[...]`.
+Create and mount an FS there:
 ```
 fallocate -l 3G localfs.img
 mkfs.ext3 localfs.img
@@ -79,7 +81,10 @@ cp -r ~/x-tools/HOST_arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf $BUILD_SY
 cp -r $BUILD_SYSROOT/opt/arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf/sysroot/* $BUILD_SYSROOT
 ```
 
-Inside `opt/` include an environment setup script `opt/env.sh` to help use the toolchain on the device:
+Symlink all the toolchain bins in`$SYSROOT/opt/arm-kobo-linux-gnueabihf/bin` to un-prefixed versions in `$SYSROOT/bin`. 
+(TODO: paste here the ash loops that do this).
+
+At `opt/env.sh` write a script to help use the toolchain on the device:
 ```
 # Set some useful environment variables for the kobo native toolchain (mainly `PATH`, `SYSROOT` and `CFLAGS`)
 
@@ -102,13 +107,13 @@ cd /mnt/onboard
 export SYSROOT=/mnt/onboard/.local
 mkdir -p $SYSROOT
 mount .localfs.img $SYSROOT -o loop
-source /mnt/onboard/.local/opt/env.sh
+source $SYSROOT/opt/env.sh
 ```
 
 Continuing on the kobo, write a helloworld at `/mnt/onboard/helloworld.c`:
 You should be able to compile and run it without compile or linker errors:
 ```
-$ arm-linux-gnueabihf-gcc $CFLAGS ./helloworld.c -o helloworld
+$ gcc $CFLAGS ./helloworld.c -o helloworld
 $ ./helloworld
 Hello world!
 ```
@@ -119,7 +124,7 @@ We need to set some environment variables to get our cross-compile toolchain to 
 I put these variables in a script `env.sh`:
 
 ```
-export BUILD_SYSROOT=
+export BUILD_SYSROOT=[same as above]
 export BUILD_TC=arm-kobo-linux-gnueabihf
 export TC_PATH=~/x-tools/$BUILD_TC/bin
 export PATH="$TC_PATH:$PATH"
