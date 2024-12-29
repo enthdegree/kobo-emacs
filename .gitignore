@@ -1,6 +1,8 @@
 *.gz
 *.bz2
 *.img
+*.zip
 *~
 \#*
 src
+mount
