@@ -245,19 +245,19 @@ mkdir -p "$HOME"
 ```
 
 ### NiLuJe usbnet configs
-NiLuJe's usbnet package provides `ssh,tmux,busybox`.
-It is a convenient way to avoid more tedious compilation, but it comes with some oddities:
- - sshd, telnetd, ftpd give root and fs access without auth. Configs in `/usr/local/niluje/usbnet/etc`
- - There is a nice and extensive but unusual tmux config at  `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`.
-  Overriding its options back to default is a mess.
-  Instead I renamed it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
- - Compiling `ncurses` natively, the build scripts expect slightly different behavior from usbnet's provided `busybox install`.
- This can be corrected by replacing `/usr/bin/install` with a script:
- 
- ```
- #!/bin/bash
- /usr/local/niluje/usbnet/bin/busybox install $@
- ```
+NiLuJe has helpfully provided a package containing busybox, tmux and ssh
+[here](https://www.mobileread.com/forums/showthread.php?t=254214).
+ - As described in the link, it creates several tunnels via udev rule (then `/usr/local/stuff/bin/stuff-daemons.sh`) which should be disabled with
+```
+touch /mnt/onboard/niluje/usbnet/etc/NO_TELNET # Disable inetd
+touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
+```
+ - It includes a nice and extensive but unusual tmux config at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. Overriding its options back to default is a mess. Instead I renamed it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
+ - Compiling `ncurses` natively, the build scripts expect slightly different argument handling from usbnet's provided `busybox install` applet. This can be corrected by replacing the `/usr/bin/install` symlink with a script:
+```
+#!/bin/sh
+/usr/local/niluje/usbnet/bin/busybox install $@
+```
 
 ## Native compilation
 Finally on the Kobo we can leverage our host toolchain.
