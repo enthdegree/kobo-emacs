@@ -20,7 +20,7 @@ We want to touch as little as possible outside the exposed directory, `/mnt/onbo
 
 The broad steps are as follows, which are also nearly a table of contents for the rest of the document
 
- - Build machine
+ - On the build machine
    - Create toolchains
      - Create a cross-compile toolchain (build=build machine, host=build machine, target=kobo)
      - Create a canadian toolchain (build=build machine, hist=kobo, target=kobo)
@@ -29,13 +29,13 @@ The broad steps are as follows, which are also nearly a table of contents for th
      - Copy the canadian toolchain into the sysroot.
      - Cross-compile all the dependencies into the sysroot.
      - Copy `localfs.img` into the kobo `/mnt/onboard/localfs.img`
- - Kobo
+ - On the kobo
    - Add conveniences to `/mnt/onboard/.efbpad_profile`
    - Adjust NiLuJe usbnet configs, if you're using those
    - Compile a few late dependencies, finally emacs
    - Win!
 
-# Build Machine
+# On the build machine...
 ## Create toolchains
 The main delicacy with these toolchains is that they're going to ship their own shared glibc and other libraries.
 Different versions of some of these libraries already exist on the Kobo in standard directories: `/lib`, `/usr/lib`, etc.
@@ -227,7 +227,7 @@ make install
 Nothing special here.
 Same as when `localfs.img` was moved over to test the native toolchain.
 
-# Kobo
+# On the Kobo
 ## Configuration
 
 ### efbpad profile
