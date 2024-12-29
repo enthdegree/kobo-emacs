@@ -36,16 +36,14 @@ The broad steps are as follows, which are also nearly a table of contents for th
 
 # On the build machine...
 ## Create toolchains
-The main delicacy with these toolchains is that they're going to ship their own shared glibc and other libraries.
-Different versions of some of these libraries already exist on the Kobo in standard directories: `/lib`, `/usr/lib`, etc.
-We have to be careful during dependency compilation to use the right linker, and point it to our local sysroot instead of `/`.
-Otherwise nothing will run.
+The main delicacy with these toolchains is they include their own shared glibc and other libraries.
+Different versions of these libraries already exist on the Kobo in `/lib`, `/usr/lib`.
+We have to be careful during compilation to link to the toolchain ones.
 
 There's several ways of doing this.
-I chose, somewhat a hack, to always include the following parameters in CFLAGS:
+I chose to always include the following parameters in CFLAGS:
 ```
--Wl,-rpath -Wl,$SYSROOT/lib \
--Wl,-rpath -Wl,$SYSROOT/usr/lib \
+-Wl,-rpath -Wl,$SYSROOT/lib: \$SYSROOT/usr/lib \
 -Wl,--dynamic-linker=$SYSROOT/lib/ld-linux-armhf.so.3
 ```
 
