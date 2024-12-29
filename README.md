@@ -12,6 +12,7 @@ Criticism and problems are included in [TODO.md](./TODO.md)
 It is unlikely emacs can or should be cross-compiled:
  - Its usual compile process involves running code on the target platform.
  - Once compiled, emacs has fairly far-reaching system dependencies
+
 Our approach, then, will be to use a build machine to cross-compile a modern native toolchain for the Kobo plus some dependencies. Then we'll use these to compile emacs natively on the Kobo.
 
 We want to touch as little as possible outside the exposed directory, `/mnt/onboard/`. Its filesystem has a limitation that is too difficult to live with for our purposes: no symlinks. So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` and mount it to a folder `/mnt/onboard/.local`.
@@ -25,7 +26,7 @@ The broad steps are as follows, which are also nearly a table of contents for th
    - Prepare a sysroot image
      - Create an empty fs image `localfs.img` and mount it someplace.
      - Copy the canadian toolchain into the sysroot.
-     - Cross-compile all the dependencies into the sysroot.
+     - Cross-compile dependencies into the sysroot.
      - Copy `localfs.img` into the kobo `/mnt/onboard/localfs.img`
  - On the kobo
    - Add conveniences to `/mnt/onboard/.efbpad_profile`
