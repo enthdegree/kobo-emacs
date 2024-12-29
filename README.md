@@ -163,12 +163,6 @@ make install
     ```
     
   - libtasn1-4.19.0.tar.gz
-    - replace `tests/Makefile` with the content:
-    ```
-    install:
-    uninstall:
-    ```
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     --build=$BUILD_TC --host=$HOST_TC --target=$HOST_TC \
@@ -176,9 +170,13 @@ make install
     --without-trust-paths \
     --disable-doc
     ```
+    Then replace `tests/Makefile` with the content:
+    ```
+    install:
+    uninstall:
+    ```
     
   - nettle-3.10.tar.gz
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     CC_FOR_BUILD="cc -O2" \
@@ -187,7 +185,6 @@ make install
     ```
 
   - libffi-3.4.6.tar.gz
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     --build=$BUILD_TC --host=$HOST_TC --target=$HOST_TC \
@@ -195,7 +192,6 @@ make install
     ```
 
   - p11-kit-0.25.5.tar.xz
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     CC_FOR_BUILD="cc $CFLAGS -O2" \
@@ -205,7 +201,6 @@ make install
     ```
     
   - gnutls-3.7.11
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     --build=$BUILD_TC --host=$HOST_TC --target=$HOST_TC \
@@ -222,7 +217,6 @@ make install
     ```
     
   - libxml2-v2.3.15
-    -
     ```
     ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
     --build=$BUILD_TC --host=$HOST_TC --target=$HOST_TC \
@@ -241,7 +235,6 @@ Same as when `localfs.img` was moved over to test the native toolchain.
 For example: 
 ```
 #!/bin/sh
-
 export LOCALFS="/mnt/onboard/.localfs.img"
 export SYSROOT="/mnt/onboard/.local"
 mkdir -p "$SYSROOT"
@@ -251,7 +244,7 @@ mkdir -p "$HOME"
 ```
 
 ### usbnet configs
-NiLuJe has helpfully provided a usbnet package containing busybox, tmux and ssh
+NiLuJe provided a usbnet package containing busybox, tmux and ssh
 [here](https://www.mobileread.com/forums/showthread.php?t=254214).
  - As described in the link, it creates several tunnels via udev rule (then `/usr/local/stuff/bin/stuff-daemons.sh`) which should be disabled with
 ```
@@ -259,7 +252,7 @@ touch /mnt/onboard/niluje/usbnet/etc/NO_TELNET # Disable inetd
 touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
 ```
  - It includes a nice but unusual tmux config at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. Overriding its options back to default is a mess. Instead I moved it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
- - The `ncurses` build scripts expect different argument handling from usbnet's applet `busybox install`. Correct this by replacing the `/usr/bin/install` symlink with a script:
+ - The `ncurses` build scripts expect different argument handling from usbnet's applet `busybox install`. Correct this by replacing the symlink `/usr/bin/install` with a script:
 ```
 #!/bin/sh
 /usr/local/niluje/usbnet/bin/busybox install $@
