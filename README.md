@@ -16,8 +16,7 @@ It is unlikely emacs can or should be cross-compiled:
 Our approach, then, is to use a build machine to cross-compile a modern native toolchain for the Kobo, and also what dependencies we can. 
 Then we use these to compile emacs natively on the Kobo.
 
-We want to touch as little as possible outside the exposed directory, `/mnt/onboard/`. Its filesystem has a limitation that is too difficult to live with for our purposes: no symlinks. So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` and mount it to a folder `/mnt/onboard/.local`.
-
+We want to touch as little as possible outside the exposed directory, `/mnt/onboard/`. Its filesystem has a limitation that is too difficult to live with for our purposes: no symlinks. So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` with all our binaries and dependencies in it and mount it to a folder `/mnt/onboard/.local`.
 The broad steps are as follows, which are also nearly a table of contents for the more detailed [BUILD.md](./BUILD.md):
 
  - On the build machine
@@ -33,5 +32,6 @@ The broad steps are as follows, which are also nearly a table of contents for th
    - Add conveniences to `/mnt/onboard/.efbpad_profile`
    - Adjust usbnet configs, if you're using those
    - Compile a few late dependencies, finally emacs
+   - Start `efbpad` and use emacs!
 
 Criticism and problems are included in [TODO.md](./TODO.md)
