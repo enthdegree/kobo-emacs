@@ -30,7 +30,7 @@ The broad steps are as follows, which are also nearly a table of contents for th
      - Copy `localfs.img` into the kobo `/mnt/onboard/localfs.img`
  - On the kobo
    - Add conveniences to `/mnt/onboard/.efbpad_profile`
-   - Adjust NiLuJe usbnet configs, if you're using those
+   - Adjust usbnet configs, if you're using those
    - Compile a few late dependencies, finally emacs
    - Win!
 
@@ -111,12 +111,13 @@ source $SYSROOT/opt/env.sh
 ```
 
 Continuing on the kobo, write a helloworld at `/mnt/onboard/helloworld.c`:
-You should be able to compile and run it without compile or linker errors:
+It should compile and run without errors:
 ```
 $ gcc $CFLAGS ./helloworld.c -o helloworld
 $ ./helloworld
 Hello world!
 ```
+I accessed the Kobo with usbnet ssh and scp.
 
 ### Cross-compile dependencies
 Back on the build system, re-mount `localfs.img` to `$BUILD_SYSROOT`.
@@ -246,24 +247,23 @@ export HOME="$SYSROOT/home/user"
 mkdir -p "$HOME"
 ```
 
-### NiLuJe usbnet configs
-NiLuJe has helpfully provided a package containing busybox, tmux and ssh
+### usbnet configs
+NiLuJe has helpfully provided a usbnet package containing busybox, tmux and ssh
 [here](https://www.mobileread.com/forums/showthread.php?t=254214).
  - As described in the link, it creates several tunnels via udev rule (then `/usr/local/stuff/bin/stuff-daemons.sh`) which should be disabled with
 ```
 touch /mnt/onboard/niluje/usbnet/etc/NO_TELNET # Disable inetd
 touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
 ```
- - It includes a nice and extensive but unusual tmux config at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. Overriding its options back to default is a mess. Instead I renamed it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
- - Compiling `ncurses` natively, the build scripts expect slightly different argument handling from usbnet's provided `busybox install` applet. This can be corrected by replacing the `/usr/bin/install` symlink with a script:
+ - It includes a nice but unusual tmux config at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. Overriding its options back to default is a mess. Instead I moved it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
+ - The `ncurses` build scripts expect different argument handling from usbnet's applet `busybox install`. Correct this by replacing the `/usr/bin/install` symlink with a script:
 ```
 #!/bin/sh
 /usr/local/niluje/usbnet/bin/busybox install $@
 ```
 
-## Native compilation
-Finally on the Kobo we can leverage our host toolchain.
-Similarly run `source opt/env.sh` then `./configure [...]; make; make install`.
+## Native dependency compilation
+On the kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.
 
   - ncurses-6.3
     - For this we need a `/usr/bin/install` that works... see the NiLuJe usbnet config comment above.
