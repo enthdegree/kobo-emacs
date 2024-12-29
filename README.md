@@ -48,7 +48,7 @@ I chose to always include the following parameters in CFLAGS:
 ```
 
 ### Create a cross-compile toolchain
-Clone NiLuJe's `koxtoolchain` repo and use `gen-tc.sh` to produce a kobo toolchain.
+Clone the [`koxtoolchain` repo](https://github.com/koreader/koxtoolchain) and use `gen-tc.sh` to produce a kobo toolchain.
 This will produce a toolchain in `~/x-tools/arm-kobo-linux-gnueabihf`
 
 ### Create a canadian toolchain
@@ -61,8 +61,8 @@ cp [this repo]/kobo_cross_native.conf [ct-ng path]/.conf
 ```
 
 `kobo_cross_native.conf` is thinly dervied from koxtoolchain's crosstool-ng kobo config from the previous step. 
-On my system the new config pointed to the kernel source kobo published here: https://github.com/kobolabs/Kobo-Reader/tree/master/hw/mt8113-libraC_vision
-You need to either download this source and point the config to it or point the config to the latest preceding version from kernel.org. `ct-ng menuconfig` gives an interface for either of these.
+On my system the new config pointed to the kernel source kobo published [here](https://github.com/kobolabs/Kobo-Reader/tree/master/hw/mt8113-libraC_vision).
+You must either do the same or point the config to the latest preceding version from kernel.org. `ct-ng menuconfig` gives an interface for either of these.
 
 ## Prepare an initial sysroot
 ### Create an empty `localfs.img`
