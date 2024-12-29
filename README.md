@@ -54,12 +54,15 @@ This will produce a toolchain in `~/x-tools/arm-kobo-linux-gnueabihf`
 ### Create a canadian toolchain
 Clone and build `crosstool-ng`. Then make a native kobo toolchain at `~/x-tools/HOST_arm-kobo-linux-gnueabihf`:
 ```
-  export $PATH="$HOME/x-tools/arm-kobo-linux-gnueabihf/bin:$PATH"
-  cp [this repo]/kobo_cross_native.conf [ct-ng path]/.conf
-  ./ct-ng build
+export $PATH="$HOME/x-tools/arm-kobo-linux-gnueabihf/bin:$PATH"
+cp [this repo]/kobo_cross_native.conf [ct-ng path]/.conf
+./ct-ng menuconfig # See below
+./ct-ng build
 ```
 
-`kobo_cross_native.conf` is thinly dervied from koxtoolchain's ct-ng kobo config from the previous step.
+`kobo_cross_native.conf` is thinly dervied from koxtoolchain's crosstool-ng kobo config from the previous step. 
+On my system the new config pointed to the kernel source kobo published here: https://github.com/kobolabs/Kobo-Reader/tree/master/hw/mt8113-libraC_vision
+You need to either download this source and point the config to it or point the config to the latest preceding version from kernel.org. `ct-ng menuconfig` gives an interface for either of these.
 
 ## Prepare an initial sysroot
 ### Create an empty `localfs.img`
