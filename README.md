@@ -4,9 +4,7 @@
 </p>
 
 The Kobo Clara BW is a great platform to run emacs on via [efbpad](https://github.com/enthdegree/efbpad).
-This project describes the stuff needed to get emacs running on it natively. 
-Though not challenging the process is fairly long.
-This guide is not complete and can probably be improved.
+This project describes the stuff needed to get terminal emacs running on it natively. The process is unchallenging but fairly long. This guide is not complete and likely has typos. It should be followed by spirit instead of by letter.
 
 Criticism and problems are included in [TODO.md](./TODO.md)
 
