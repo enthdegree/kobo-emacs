@@ -121,7 +121,7 @@ Hello world!
 ```
 
 ### Cross-compile dependencies
-Back on the build system, ensure `source build_env.sh` has been run and re-mount `localfs.img` to `$BUILD_SYSROOT`.
+Back on the build system, ensure [`source build_env.sh`](./scripts/build_env.sh) has been run and re-mount `localfs.img` to `$BUILD_SYSROOT`.
 Most of the cross-compiled dependencies use autotools.
 That is, I compiled and installed each dependency as so:
 ```
