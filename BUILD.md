@@ -8,8 +8,8 @@ We also cross-compile what dependencies we can on the build machine.
 We use this base to compile emacs natively on the Kobo.
 
 One should touch as little as possible outside the Kobo's usual user directory, `/mnt/onboard/`. 
-Its filesystem has a limitation that is too severe to live with for our purposes: no symlinks. 
-So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` with all our binaries and dependencies in it and mount it to a folder `/mnt/onboard/.local`.
+Its filesystem has a limitation that is too severe for us to live with: no symlinks. 
+Instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` with all our binaries and dependencies in it and mount it to a folder `/mnt/onboard/.local`.
 The broad steps are as follows, which are also nearly a table of contents for what follows:
 
  - On the build machine
