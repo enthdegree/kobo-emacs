@@ -1,6 +1,5 @@
- - The current `kobo_cross_native.conf` produces utilities in `sysroot/usr/bin` that reference `/` instead of `$SYSROOT`. 
-   Adding `-Wl,-rpath=`, `-Wl,--dynamic-linker=`, etc to the ct-ng option `CT_GLIBC_EXTRA_CFLAGS` makes the build fail. 
-   The bad `/usr/bin/locale` causes problems for programs like `bash` unless started safely (in the release image see `$SYSROOT/bin/bash_helper.sh`)
+ - The current `kobo_cross_native.conf` produces utilities in `arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf/sysroot/usr/bin` that reference `/` instead of `$SYSROOT`. 
+   One affected binary, `$SYSROOT/usr/bin/locale`, causes problems for programs like `bash` unless started safely. See [`$SYSROOT/bin/bash_helper.sh`](./scripts/bash_helper.sh).
  - Rather than `./configure` with a bunch of hand-written `[LIBRARY]_CFLAGS= [LIBRARY]_LIBS=` it may be more maintainable to compile perl earlier, then compile and use `pkg-config`
  - We currently rely on shipped autoconf scripts instead of using autotools to generate them.
  - Add links to the exact sources used.
