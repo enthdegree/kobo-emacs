@@ -55,7 +55,7 @@ cd [ct-ng working dir]
 ./ct-ng build
 ```
 
-`kobo_cross_native.conf` is thinly dervied from koxtoolchain's crosstool-ng kobo config from the previous step. 
+[`kobo_cross_native.conf`](./scripts/kobo_cross_native.conf) is thinly dervied from koxtoolchain's crosstool-ng kobo config from the previous step. 
 On my system the new config pointed to the kernel source kobo published [here](https://github.com/kobolabs/Kobo-Reader/tree/master/hw/mt8113-libraC_vision).
 You must either do the same or point the config to the latest preceding version from kernel.org. 
 `ct-ng menuconfig` gives an interface for either of these.
