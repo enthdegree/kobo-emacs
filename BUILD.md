@@ -245,6 +245,7 @@ If it's installed there's a few things to track:
 
 ### supporting programs
 For common scripts to work it is reasonable to add symlinks for `bash` and `perl` inside the Kobo's `/bin/`.
+The symlink to `bash` should point to [`$SYSROOT/bin/bash_helper.sh`](./scripts/bash_helper.sh); see [TODO.md](./TODO.md).
 
 ## Native dependency compilation
 To compile dependencies on the Kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.
