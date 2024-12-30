@@ -45,7 +45,7 @@ Here we take the approach to always pass these CFLAGS:
 ### Create a cross-compile toolchain
 Clone the [`koxtoolchain` repo](https://github.com/koreader/koxtoolchain) and use `gen-tc.sh` to produce a kobo toolchain.
 This will produce a cross-compile toolchain somewhere, `~/x-tools/arm-kobo-linux-gnueabihf` on my system.
-Update variables in `scripts/build_env.sh`](./scripts/build_env.sh), in particular:
+Update variables in [`scripts/build_env.sh`](./scripts/build_env.sh), in particular:
  - `BUILD_SYSROOT`: Mountpoint for the localfs image we're going to create.
  - `TC_PATH`: The cross-compile toolchain binary folder, containing, e.g., `arm-kobo-linux-gnueabihf-gcc`.
 
