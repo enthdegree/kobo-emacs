@@ -13,6 +13,7 @@ Criticism and problems are included in [TODO.md](./TODO.md)
 Instead of compiling everything you can try things out with a (maybe out-of-date) pre-built image from [here](https://mega.nz/folder/HdZlBQYA#4n_5f8hWzS3yp6b-KKa4hA):
 
  - Install `efbpad` and ensure it's working
- - From the zip move `onboard/.efbpad_config` and `onboard/.localfs.img` onto `/mnt/onboard`
+ - From the zip move `onboard/.efbpad_config` and `onboard/.localfs.img` onto `/mnt/onboard`. 
+   The kobo's shipped `tar` seems to have issues unzipping large files there so they should be transferred to the device directly.
 
 You should still read [`BUILD.md`](./BUILD.md) for information on how to configure things.
