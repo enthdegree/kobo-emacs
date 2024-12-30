@@ -16,3 +16,5 @@ Instead of compiling everything you can try things out with a (maybe out-of-date
 
  - Install `efbpad` and ensure it's working
  - From the image move `onboard/.efbpad_config` and `onboard/.localfs.img` onto `/mnt/onboard`
+
+You should still read `BUILD.md` for information on how to configure things.
