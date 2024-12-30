@@ -40,7 +40,7 @@ Here I have chosen to always pass these CFLAGS:
 ### Create a cross-compile toolchain
 Clone the [`koxtoolchain` repo](https://github.com/koreader/koxtoolchain) and use `gen-tc.sh` to produce a kobo toolchain.
 This will produce a cross-compile toolchain somewhere, `~/x-tools/arm-kobo-linux-gnueabihf` on my system.
-Update variables in `build_env.sh`, in particular:
+Update variables in `scripts/build_env.sh`](./scripts/build_env.sh), in particular:
  - `BUILD_SYSROOT`: Mountpoint for the localfs image we're going to create.
  - `TC_PATH`: The cross-compile toolchain binary folder, containing, e.g., `arm-kobo-linux-gnueabihf-gcc`.
 
@@ -82,7 +82,7 @@ cp -r $BUILD_SYSROOT/opt/arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf/sysro
 Symlink all the toolchain bins in`$SYSROOT/opt/arm-kobo-linux-gnueabihf/bin` to un-prefixed versions in `$SYSROOT/bin`. 
 (TODO: paste here the ash loops that do this).
 
-Include [`host_env.sh`](./host_env.sh) in `opt/arm-kobo-linux-gnueabihf/env.sh` to help use the toolchain on the device.
+Include [`host_env.sh`](./scripts/host_env.sh) in `opt/arm-kobo-linux-gnueabihf/env.sh` to help use the toolchain on the device.
 
 Next we will ensure this toolchain actually works on the kobo. 
 On the build system, unmount `localfs.img` and move it to the Kobo's `/mnt/onboard/.localfs.img`.
@@ -231,7 +231,7 @@ touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
 ```
 
 ## Native dependency compilation
-On the Kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.
+To compile dependencies on the Kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.
 
   - ncurses-6.3
     - For this we need a `/usr/bin/install` that works... see the usbnet config comment above.
