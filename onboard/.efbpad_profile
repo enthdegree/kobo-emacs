@@ -1,12 +1,15 @@
 #!/bin/sh
+
+# Set up kobo-emacs localfs 
 export LOCALFS="/mnt/onboard/.localfs.img"
 export SYSROOT="/mnt/onboard/.local"
 export HOME="$SYSROOT/home/user"
 export PATH="$SYSROOT/bin:$SYSROOT/usr/bin:$PATH"
-export EFBPAD_CMD="$SYSROOT/bin/bash_helper.sh"
-#export FONT=large
-
 mkdir -p "$SYSROOT"
 mountpoint -q $SYSROOT || mount $LOCALFS $SYSROOT -o loop
 mkdir -p "$HOME"
+
+# Efbpad options
+export EFBPAD_CMD="$SYSROOT/bin/bash_helper.sh"
+#export EFBPAD_FONT=large
 cd ~
