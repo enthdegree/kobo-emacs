@@ -1,13 +1,16 @@
 # Approach
 It is unlikely emacs can or should be cross-compiled:
- - Its usual compile process involves running code on the target platform.
- - Once compiled, emacs has fairly far-reaching system dependencies
+ - Its usual build process involves running code on the target platform.
+ - Once compiled, emacs has far-reaching system dependencies
 
-Our approach, then, is to use a build machine to cross-compile a modern native toolchain for the Kobo, and also what dependencies we can. 
-Then we use these to compile emacs natively on the Kobo.
+Our approach, then, is to use a build machine to cross-compile a native Kobo toolchain.
+We also cross-compile what dependencies we can on the build machine.
+We use this base to compile emacs natively on the Kobo.
 
-We want to touch as little as possible outside the exposed directory, `/mnt/onboard/`. Its filesystem has a limitation that is too difficult to live with for our purposes: no symlinks. So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` with all our binaries and dependencies in it and mount it to a folder `/mnt/onboard/.local`.
-The broad steps are as follows, which are also nearly a table of contents for the more detailed [BUILD.md](./BUILD.md):
+One should touch as little as possible outside the Kobo's usual user directory, `/mnt/onboard/`. 
+Its filesystem has a limitation that is too severe to live with for our purposes: no symlinks. 
+So instead we'll construct our sysroot inside an ext3 fs `/mnt/onboard/localfs.img` with all our binaries and dependencies in it and mount it to a folder `/mnt/onboard/.local`.
+The broad steps are as follows, which are also nearly a table of contents for what follows:
 
  - On the build machine
    - Create toolchains
@@ -24,6 +27,8 @@ The broad steps are as follows, which are also nearly a table of contents for th
    - Compile a few late dependencies, finally emacs
    - Start `efbpad` and use emacs!
 
+Before starting one should have a linux build machine and ability to access the Kobo via ssh.
+Build system commands were run in bash and Kobo system commands were run in its included shell, ash.
 
 # On the build machine...
 ## Create toolchains
@@ -31,7 +36,7 @@ The main delicacy with these toolchains is they include their own shared glibc a
 Different versions of these libraries already exist on the Kobo in `/lib`, `/usr/lib`.
 We have to be careful during compilation to link to the toolchain ones.
 There's several ways of doing this.
-Here I have chosen to always pass these CFLAGS:
+Here we take the approach to always pass these CFLAGS:
 ```
 -Wl,-rpath -Wl,$SYSROOT/lib:$SYSROOT/usr/lib \
 -Wl,--dynamic-linker=$SYSROOT/lib/ld-linux-armhf.so.3
@@ -79,8 +84,19 @@ cp -r ~/x-tools/HOST_arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf $BUILD_SY
 cp -r $BUILD_SYSROOT/opt/arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf/sysroot/* $BUILD_SYSROOT
 ```
 
-Symlink all the toolchain bins in`$SYSROOT/opt/arm-kobo-linux-gnueabihf/bin` to un-prefixed versions in `$SYSROOT/bin`. 
-(TODO: paste here the ash loops that do this).
+Make un-prefixed symlinks to the toolchain in `$SYSROOT/bin`:
+```
+mkdir $BUILD_SYSROOT/bin
+cd $BUILD_SYSROOT/opt/arm-kobo-linux-gnueabihf/bin
+for fn in ./arm-kobo-linux-gnueabihf-* 
+do
+    ln -s $fn $BUILD_SYSROOT/bin/${fn#"./arm-kobo-linux-gnueabihf-"}
+done
+find . -mindepth 1 -not -name "arm-kobo-linux-gnueabifh-*" | while read -r fn
+do
+    ln -s $fn $BUILD_SYSROOT/${fn#./}
+done
+```
 
 Include [`host_env.sh`](./scripts/host_env.sh) in `opt/arm-kobo-linux-gnueabihf/env.sh` to help use the toolchain on the device.
 
@@ -103,7 +119,6 @@ $ gcc $CFLAGS ./helloworld.c -o helloworld
 $ ./helloworld
 Hello world!
 ```
-I accessed the Kobo with usbnet ssh and scp.
 
 ### Cross-compile dependencies
 Back on the build system, ensure `source build_env.sh` has been run and re-mount `localfs.img` to `$BUILD_SYSROOT`.
@@ -188,12 +203,24 @@ Here's the list of dependencies, in order, with comments and the ./configure arg
     --build="$BUILD_ARCH" --host="$HOST_ARCH" --target="$TARGET_ARCH" \
     --without-python 
     ```
+
+ - coreutils-9.5
+   ```
+   ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+   --build="$BUILD_ARCH" --host="$HOST_ARCH" --target=TARGET_ARCH
+   ```
 	
-  - (optional) coreutils-9.5
-  ```
-  ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
-  --build="$BUILD_ARCH" --host="$HOST_ARCH" --target=TARGET_ARCH
-  ```
+ - bash-5.2.37
+    ```
+    ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+    --build="$BUILD_ARCH" --host="$HOST_ARCH" --target=TARGET_ARCH
+    ```
+  
+  - (optional) patchelf-0.18.0
+    ```
+    ./configure --prefix="$BUILD_SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" \
+    --build="$BUILD_ARCH" --host="$HOST_ARCH" --target=TARGET_ARCH
+    ```
     
 ### Copy `localfs.img` to the Kobo
 Nothing special here.
@@ -203,32 +230,21 @@ Same as when `localfs.img` was moved over to test the native toolchain.
 ## Configuration
 
 ### efbpad profile
-`/mnt/onboard/.efbpad_profile` can set up the new sysroot every time efbpad is started.
-For example: 
-```
-#!/bin/sh
-export LOCALFS="/mnt/onboard/.localfs.img"
-export SYSROOT="/mnt/onboard/.local"
-mkdir -p "$SYSROOT"
-mountpoint -q $SYSROOT || 
-export HOME="$SYSROOT/home/user"
-mkdir -p "$HOME"
-```
+The included [`/mnt/onboard/.efbpad_profile`](./onboard/.efbpad_profile) sets up the new sysroot on efbpad startup.
 
 ### usbnet configs
-NiLuJe provided a usbnet package containing busybox, tmux and ssh
-[here](https://www.mobileread.com/forums/showthread.php?t=254214).
- - As described in the link, it creates several tunnels via udev rule (then `/usr/local/stuff/bin/stuff-daemons.sh`) which should be disabled with
-```
-touch /mnt/onboard/niluje/usbnet/etc/NO_TELNET # Disable inetd
-touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
-```
- - It includes a nice but unusual tmux config at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. Overriding its options back to default is a mess. Instead I moved it to `tmux.conf.niluje` and put my own config in `$HOME/.tmux.conf`
- - The `ncurses` build scripts expect different argument handling from usbnet's applet `busybox install`. Correct this by replacing the symlink `/usr/bin/install` with a script:
-```
-#!/bin/sh
-/usr/local/niluje/usbnet/bin/busybox install $@
-```
+NiLuJe provided a usbnet package containing busybox, tmux and ssh [here](https://www.mobileread.com/forums/showthread.php?t=254214).
+If it's installed there's a few things to track:
+
+ - It creates tunnels via udev rule (then `/usr/local/stuff/bin/stuff-daemons.sh`) which should be disabled:
+   ```
+   touch /mnt/onboard/niluje/usbnet/etc/NO_TELNET # Disable inetd
+   touch /mnt/onboard/niluje/usbnet/etc/NO_SSH # Disable ssh
+   ```
+ - A nice but unusual tmux config is included at `/mnt/onboard/.niluje/usbnet/etc/tmux.conf`. I moved it to `tmux.conf.niluje` and put my own config in `$SYSROOT/home/user/.tmux.conf`
+
+### supporting programs
+For common scripts to work it is reasonable to add symlinks for `bash` and `perl` inside the Kobo's `/bin/`.
 
 ## Native dependency compilation
 To compile dependencies on the Kobo we run `source opt/env.sh` then `./configure [...]; make; make install`.

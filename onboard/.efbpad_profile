@@ -1,15 +1,12 @@
 #!/bin/sh
-
-# Mount localfs.img
 export LOCALFS="/mnt/onboard/.localfs.img"
 export SYSROOT="/mnt/onboard/.local"
-mkdir -p "$SYSROOT"
-mountpoint -q $SYSROOT || mount $LOCALFS $SYSROOT -o loop
 export HOME="$SYSROOT/home/user"
-mkdir -p "$HOME"
-
+export PATH="$SYSROOT/bin:$SYSROOT/usr/bin:$PATH"
+export EFBPAD_CMD="$SYSROOT/bin/bash_helper.sh"
 #export FONT=large
 
-# Shell
-export PATH="$SYSROOT/bin:$SYSROOT/usr/bin:$PATH"
-export EFBPAD_CMD=bash_helper.sh
+mkdir -p "$SYSROOT"
+mountpoint -q $SYSROOT || mount $LOCALFS $SYSROOT -o loop
+mkdir -p "$HOME"
+cd ~
