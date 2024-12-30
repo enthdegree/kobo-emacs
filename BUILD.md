@@ -102,8 +102,8 @@ Include [`host_env.sh`](./scripts/host_env.sh) in `opt/arm-kobo-linux-gnueabihf/
 
 Next we will ensure this toolchain actually works on the kobo. 
 On the build system, unmount `localfs.img` and move it to the Kobo's `/mnt/onboard/.localfs.img`.
-It is helpful to zip/unzip it to make the transfer faster.
-
+It is helpful to zip/unzip it to make the transfer faster. 
+On the Kobo mount the image:
 ```
 cd /mnt/onboard
 export SYSROOT=/mnt/onboard/.local
