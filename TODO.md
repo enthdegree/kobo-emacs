@@ -4,5 +4,4 @@
  - Rather than `./configure` with a bunch of hand-written `[LIBRARY]_CFLAGS= [LIBRARY]_LIBS=` it may be more maintainable to compile perl earlier, then compile and use `pkg-config`
  - Is it necessary to include linker options in `LDFLAGS`?
  - Is there a low-effort way to automate all this? Could the compilation be performed natively in a VM?
- - Make a prebuilt package so there's no up-front work for users.
  
