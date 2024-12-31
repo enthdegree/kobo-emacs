@@ -25,7 +25,6 @@ The broad steps are as follows, which are also nearly a table of contents for wh
    - Add conveniences to `/mnt/onboard/.efbpad_profile`
    - Adjust usbnet configs, if you're using those
    - Compile a few late dependencies, finally emacs
-   - Start `efbpad` and use emacs!
 
 Before starting one should have a linux build machine and ability to access the Kobo via ssh.
 Build system commands were run in bash and Kobo system commands were run in its included shell, ash.
