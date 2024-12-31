@@ -15,7 +15,7 @@ This is completely untested works-for-me-ware. Although this doesn't touch any n
 Instead of compiling everything you can try things out with a (maybe out-of-date) pre-built image from [here](https://mega.nz/folder/HdZlBQYA#4n_5f8hWzS3yp6b-KKa4hA):
 
  - Install `efbpad` and ensure it's working
- - From the zip move `onboard/.efbpad_config` and `onboard/.localfs.img` onto `/mnt/onboard`. 
+ - From the zip move `onboard/.efbpad_profile` and `onboard/.localfs.img` onto `/mnt/onboard`. 
    The kobo's shipped `tar` seems to have issues unzipping large files there so they should be transferred to the device directly.
  - `emacs` should be in the path.
 
