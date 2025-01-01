@@ -17,6 +17,6 @@ Instead of compiling everything you can try things out with a (maybe out-of-date
  - Install `efbpad` and ensure it's working
  - From the zip move `onboard/.efbpad_profile` and `onboard/.localfs.img` onto `/mnt/onboard`. 
    The kobo's shipped `tar` seems to have issues unzipping large files there so they should be transferred to the device directly.
- - `emacs` should be in the path.
+ - `emacs` should now be in the `PATH`.
 
 You should still read [`BUILD.md`](./BUILD.md) for information on how to configure things.
