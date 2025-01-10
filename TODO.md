@@ -1,8 +1,6 @@
- - The current `kobo_cross_native.conf` produces utilities in `arm-kobo-linux-gnueabihf/arm-kobo-linux-gnueabihf/sysroot/usr/bin` that reference `/` instead of `$SYSROOT`. 
-   One affected binary, `$SYSROOT/usr/bin/locale`, causes problems for programs like `bash` unless started safely. See [`$SYSROOT/bin/bash_helper.sh`](./scripts/bash_helper.sh).
- - Rather than `./configure` with a bunch of hand-written `[LIBRARY]_CFLAGS= [LIBRARY]_LIBS=` it may be more maintainable to compile perl earlier, then compile and use `pkg-config`
- - We currently rely on shipped autoconf scripts instead of using autotools to generate them.
+ - The current `ct-ng` config `kobo_cross_native.conf` has an issue: glibc links against `/` instead of `$SYSROOT`. One affected binary, `$SYSROOT/usr/bin/locale`, causes problems for programs like `bash` unless started safely. See [`$SYSROOT/bin/bash_helper.sh`](./scripts/bash_helper.sh). A workaround is described [here](https://github.com/crosstool-ng/crosstool-ng/issues/2250#issuecomment-2571503290).
+ - Koreader USB mass-storage connection won't start if localfs is left mounted. Our shipped `.efbpad_profile` leaves it mounted on efbpad exit. Have to run `umount /mnt/onboard/.local` via, say, builtin OSK terminal emulator to get it to start.
+ - Some cross-compiled libraries' pkg-config files reference build machine directories.
+ - We rely on shipped autoconf scripts instead of using autotools to generate them.
  - Add links to the exact sources used.
- - Is it necessary to include linker options in `LDFLAGS`?
  - Is there a low-effort way to automate all this? Could the compilation be performed natively in a VM?
- 
