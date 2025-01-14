@@ -15,7 +15,7 @@ The following steps are nearly a table of contents for what follows:
  - On the build machine
    - Create toolchains
      - Create a cross-compile toolchain (build=build machine, host=build machine, target=kobo)
-     - Create a canadian toolchain (build=build machine, hist=kobo, target=kobo)
+     - Create a canadian toolchain (build=build machine, host=kobo, target=kobo)
    - Prepare a sysroot image
      - Create an empty fs image `localfs.img` and mount it someplace.
      - Copy the canadian toolchain into the sysroot.
