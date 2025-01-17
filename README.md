@@ -1,4 +1,4 @@
-# kobo-emacs
+# kobo-emacs (or vim)
 <p align="center">
   <img alt="Cathedrals everywhere for those with eyes to see" src="./images/kobo_emacs_splash.jpeg" width="95%">
 </p>
