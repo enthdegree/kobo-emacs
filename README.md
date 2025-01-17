@@ -4,8 +4,10 @@
 </p>
 
 The Kobo Clara BW is a great platform for emacs via [efbpad](https://github.com/enthdegree/efbpad).
-This project describes a way to get terminal emacs running on it natively. The process is unchallenging but fairly involved. 
-It is described in [BUILD.md](./BUILD.md) which is not complete and likely has typos.
+This project describes a build process for native terminal emacs on the Clara BW. It should extend directly to other devices too. 
+vim, which relies on only a subset of emacs's dependencies, is included.
+The build process is uncomplicated but fairly long. 
+It is described in [BUILD.md](./BUILD.md).
 It should be followed by spirit and not by letter!
 Criticism and problems are included in [TODO.md](./TODO.md)
 
