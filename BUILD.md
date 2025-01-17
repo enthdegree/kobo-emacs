@@ -257,7 +257,12 @@ To compile dependencies on the Kobo we run `source opt/env.sh` then `./configure
     --with-shared \
     --with-termlib
     ```
-
+    
+ - (optional) vim-9.1.1029
+   ``` 
+   ./configure --prefix="$SYSROOT" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" --with-tlib=tinfow
+   ```
+   
  - perl-5.38.2
    - We need perl because the emacs compile process calls the perl utility `texinfo`.
    - We can't build perl-5.40.0 (current stable as of 12/28/2024) because of locale issues, see [TODO.md](./TODO.md).
