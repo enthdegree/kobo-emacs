@@ -1,4 +1,4 @@
- - A sensible color scheme!!!
+ - Sensible color scheme
  - Maybe should reorganize: sysroot mount point `/mnt/onboard/.local` could move to `/mnt/onboard/.adds/localfs/root` 
  - The current `ct-ng` config `kobo_cross_native.conf` has an issue: glibc links against `/` instead of `$SYSROOT`. One affected binary, `$SYSROOT/usr/bin/locale`, causes problems for programs like `bash` unless started safely. See [`$SYSROOT/bin/bash_helper.sh`](./scripts/bash_helper.sh). A workaround is described [here](https://github.com/crosstool-ng/crosstool-ng/issues/2250#issuecomment-2571503290).
  - Koreader USB mass-storage connection won't start if localfs is left mounted. Our shipped `.efbpad_profile` leaves it mounted on efbpad exit. Have to run `/bin/umount -l $SYSROOT`.
