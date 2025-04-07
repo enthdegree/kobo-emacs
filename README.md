@@ -14,7 +14,7 @@ vim, which relies on only a subset of emacs's dependencies, is included
 
 Criticism and problems are included in [TODO.md](./TODO.md)
 
-This is completely untested works-for-me-ware. Although this doesn't touch any non-user directories, you could still brick your device if you don't know what you're doing so be careful. 
+This is completely untested works-for-me-ware. Although this doesn't touch any non-user directories, you could still brick your device if you don't know what you're doing. 
 
 # Prebuilt image
 Instead of compiling everything you can try things out with a (maybe out-of-date) pre-built image from [here](https://mega.nz/folder/HdZlBQYA#4n_5f8hWzS3yp6b-KKa4hA):
